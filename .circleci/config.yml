@@ -61,7 +61,7 @@ jobs:
 
   deploy-to-aws-cloudfront:
     docker:
-      -image: circleci/node:12.8.4
+      - image: circleci/node:12.8.4
     working_directory: ~/repo
     steps:
       - checkout
@@ -75,7 +75,7 @@ jobs:
           sudo apt-get -y -qq update
           sudo apt-get install -y awscli
           sudo apt-get install -y python-pip python-dev build-essential
-    - run:
+      - run:
         name: Build Project
         command: |
           name install
@@ -83,7 +83,7 @@ jobs:
           cd build
           zip ../build.zip -r * .[^.]*
           echo "Build successful"
-    - run:
+      - run:
         name: Deploy to AWS Cloudfront
         command: |
           aws configure set preview.cloudfront true
