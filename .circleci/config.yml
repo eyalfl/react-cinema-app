@@ -9,9 +9,9 @@ jobs:
       - checkout
       - run:
           name: Show current branch
-          command: echo ${CURRENT_BRANCH}
+          command: echo ${CIRCLE_BRANCH}
       - restore_cache:
-          key:
+          keys:
             - app-{{ checksum "package.json" }}
             - app-
       - run:
@@ -30,7 +30,7 @@ deploy-to-aws-s3:
     - checkout
     - run:
         name: Show current branch
-        command: echo ${CURRENT_BRANCH}
+        command: echo ${CIRCLE_BRANCH}
     - run:
         name: Installing AWS circleci
         working_directory: /
@@ -49,10 +49,10 @@ deploy-to-aws-s3:
     - run:
         name: Deploy to AWS S3
         command: |
-          if [ "${CURRENT_BRANCH}" == "master" ]
+          if [ "${CIRCLE_BRANCH}" == "master" ]
           then
             aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_PROD} --delete
-          elif [ "${CURRENT_BRANCH}" == "staging" ]
+          elif [ "${CIRCLE_BRANCH}" == "staging" ]
           then
             aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_STAGING} --delete
           else
@@ -67,7 +67,7 @@ deploy-to-aws-cloudfront:
     - checkout
     - run:
         name: Show current branch
-        command: echo ${CURRENT_BRANCH}
+        command: echo ${CIRCLE_BRANCH}
     - run:
         name: Installing AWS circleci
         working_directory: /
@@ -86,11 +86,11 @@ deploy-to-aws-cloudfront:
     - run:
         name: Deploy to AWS Cloudfront
         command: |
-          aws configure set preview.cloudfront
-          if [ "${CURRENT_BRANCH}" == "master" ]
+          aws configure set preview.cloudfront true
+          if [ "${CIRCLE_BRANCH}" == "master" ]
           then
             aws cloudfront create-invalidation --distribution-id ${PROD_DISTRIBUTION_ID} --paths /\*
-          elif [ "${CURRENT_BRANCH}" == "staging" ]
+          elif [ "${CIRCLE_BRANCH}" == "staging" ]
           then
             aws cloudfront create-invalidation --distribution-id ${STAGING_DISTRIBUTION_ID} --paths /\*
           else
