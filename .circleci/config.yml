@@ -22,53 +22,53 @@ jobs:
             - node_modules
           key: app-{{ checksum "package.json" }}
 
-deploy-to-aws-s3:
-  docker:
-    -image: circleci/node:12.8.4
-  working_directory: ~/repo
-  steps:
-    - checkout
-    - run:
-        name: Show current branch
-        command: echo ${CIRCLE_BRANCH}
-    - run:
-        name: Installing AWS circleci
-        working_directory: /
-        command: |
-          sudo apt-get -y -qq update
-          sudo apt-get install -y awscli
-          sudo apt-get install -y python-pip python-dev build-essential
-    - run:
-        name: Build Project
-        command: |
-          name install
-          npm run build
-          cd build
-          zip ../build.zip -r * .[^.]*
-          echo "Build successful"
-    - run:
-        name: Deploy to AWS S3
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]
-          then
-            aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_PROD} --delete
-          elif [ "${CIRCLE_BRANCH}" == "staging" ]
-          then
-            aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_STAGING} --delete
-          else
-            aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_DEV} --delete
-          fi
+  deploy-to-aws-s3:
+    docker:
+      -image: circleci/node:12.8.4
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Show current branch
+          command: echo ${CIRCLE_BRANCH}
+      - run:
+          name: Installing AWS CLI
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get install -y awscli
+            sudo apt-get install -y python-pip python-dev build-essential
+      - run:
+          name: Build Project
+          command: |
+            name install
+            npm run build
+            cd build
+            zip ../build.zip -r * .[^.]*
+            echo "Build successful"
+      - run:
+          name: Deploy to AWS S3
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_PROD} --delete
+            elif [ "${CIRCLE_BRANCH}" == "staging" ]
+            then
+              aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_STAGING} --delete
+            else
+              aws --region ${AWS_REGION} s3 sync ~/region/build s3://${AWS_BUCKET_DEV} --delete
+            fi
 
-deploy-to-aws-cloudfront:
-  docker:
-    -image: circleci/node:12.8.4
-  working_directory: ~/repo
-  steps:
-    - checkout
-    - run:
+  deploy-to-aws-cloudfront:
+    docker:
+      -image: circleci/node:12.8.4
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
         name: Show current branch
         command: echo ${CIRCLE_BRANCH}
-    - run:
+      - run:
         name: Installing AWS circleci
         working_directory: /
         command: |
