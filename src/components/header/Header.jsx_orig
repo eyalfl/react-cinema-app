@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+import './Header.scss';
+
+const Header = () => {
+  // const [navClass, setNavClass] = useState(false);
+  // const [menuClass, setMenuClass] = useState(false);
+  const [toggleMenuState, setToggleMenuState] = useState(false);
+
+  const toggleMenu = () => {
+    // setMenuClass(!menuClass);
+    // setNavClass(!menuClass);
+    setToggleMenuState(!toggleMenuState);
+  };
+
+  return (
+    <>
+      <div className="header-nav-container">
+        <div className="header-bar"></div>
+        <div className="header-navbar">
+          <div className="header-image">
+            {/* <img src={logo} alt="" /> */}
+            Cinema App
+          </div>
+          <div className='header-menu-toggle'
+              id="header-mobile-menu" onClick={() => alert()} >
+            <span className="bar" onClick={toggleMenu}></span>
+            <span className={`${toggleMenuState ? 'header-menu-toggle is-active' : 'header-menu-toggle'}`}></span>
+            <span className="bar"></span>
+          </div>
+          <ul className={`${toggleMenuState ? 'header-nav header-mobile-nav' : 'header-nav'}`}>
+            <li className="header-nav-item">Now Playing</li>
+            <li className="header-nav-item">Now Movies</li>
+            <input className="search-input" type="text" placeholder="Search for a Movie"></input>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Header;
