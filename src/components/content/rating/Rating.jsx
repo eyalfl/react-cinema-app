@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import './Rating.scss';
 
 const Rating = ({ rating, totalStar }) => {
-
   const Star = () => {
     const starArray = [...Array(5)].map((value, index) => {
       return <i key={index} className='fa fa-star' aria-hidden='true'></i>;
@@ -35,9 +34,9 @@ const Rating = ({ rating, totalStar }) => {
     </div>
   );
 };
-Rating.propTypes ={
+Rating.propTypes = {
   rating: PropTypes.number.isRequired,
   totalStar: PropTypes.number.isRequired
-}
+};
 
 export default Rating;
