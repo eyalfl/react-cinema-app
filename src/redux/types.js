@@ -1,0 +1,9 @@
+const Types = {
+  MOVIE_START: 'MOVIE_START',
+  MOVIE_LIST: 'MOVIE_LIST',
+  SET_ERROR: 'SET_ERROR',
+  LOAD_MORE_RESULTS: 'LOAD_MORE_RESULTS',
+  MOVIE_TYPE: 'MOVIE_TYPE'
+};
+
+export default Types;

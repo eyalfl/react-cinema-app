@@ -1,12 +1,12 @@
 import React from 'react';
-import MainContent from '../content/main-content/MainContent';
+import MainContentContainer from '../content/main-content/MainContentContainer';
 
 import './Main.scss';
 
 const Main = () => {
   return (
   <div className='main-container'>
-    <MainContent />
+    <MainContentContainer />
   </div>
   );
 };
