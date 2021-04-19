@@ -16,6 +16,7 @@ const Header = ({ setMovieType, stateMoviesType }) => {
     if (detailsRoute || location.pathname === '/') {
       setShowHeader(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const HEADER_LIST = [

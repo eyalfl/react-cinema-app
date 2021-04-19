@@ -9,6 +9,7 @@ const MainContentContainer = ({ getMovies, movieList, movieType }) => {
 
   useEffect(() => {
     getMovies(movieType.type, 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieType]);
 
   return (

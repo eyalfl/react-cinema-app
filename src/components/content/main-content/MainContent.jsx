@@ -35,6 +35,7 @@ const MainContent = ({ loadMoreMovies, movieList, totalPages, movieType }) => {
     if (movieList && movieList.length > 0) {
       randomMovies();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieList]);
 
   const paginate = (type) => {
