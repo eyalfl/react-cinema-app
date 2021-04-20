@@ -48,6 +48,16 @@ jobs:
             - node_modules
           key: app-{{ checksum "package.json" }}
 
+  unit-test:
+    executor: app-executor
+    steps:
+      - checkout
+      - *show-current-branch-name
+      - *restore-cache
+      - run:
+          name: Run unit unit
+          command: npm run test
+
   deploy-to-aws-s3:
     executor: app-executor
     steps:
@@ -93,9 +103,18 @@ workflows:
   build_and_deploy: 
     jobs:
       - build
+      - unit-test
+          requires:
+            -build
+          filters:
+            branches:
+              only:
+              - develop
+              - staging
+              - master
       - deploy-to-aws-s3:
           requires:
-            - build
+            - unit-test
           filters:
             branches:
              only: 
