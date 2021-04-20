@@ -103,7 +103,7 @@ workflows:
   build_and_deploy: 
     jobs:
       - build
-      - unit-test
+      - unit-test:
           requires:
             - build
           filters:
