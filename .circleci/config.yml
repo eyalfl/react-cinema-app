@@ -105,7 +105,7 @@ workflows:
       - build
       - unit-test
           requires:
-            -build
+            - build
           filters:
             branches:
               only:
