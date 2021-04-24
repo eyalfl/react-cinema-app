@@ -1,6 +1,6 @@
 version: 2.1
 executors:
-  app-executor: 
+  app-executor:
     docker:
       - image: circleci/node:14.16.0
     working_directory: ~/repo
@@ -15,27 +15,27 @@ aliases:
       name: Show current branch
       command: echo ${CIRCLE_BRANCH}
   - &restore-cache
-      restore_cache:
-        keys:
-          - app-{{ checksum "package.json" }}
-          - app-
+    restore_cache:
+      keys:
+        - app-{{ checksum "package.json" }}
+        - app-
   - &installing-aws-cli
-      run:
-        name: Installing AWS CLI
-        working_directory: /
-        command: |
-          sudo apt-get -y -qq update
-          sudo apt-get install -y awscli
-          sudo apt-get install -y python-pip python-dev build-essential
+    run:
+      name: Installing AWS CLI
+      working_directory: /
+      command: |
+        sudo apt-get -y -qq update
+        sudo apt-get install -y awscli
+        sudo apt-get install -y python-pip python-dev build-essential
   - &build-project
-      run:
-        name: Build Project
-        command: |
-          npm install
-          npm run build
-          cd build
-          zip ../build.zip -r * .[^.]*
-          echo "Build successful"
+    run:
+      name: Build Project
+      command: |
+        npm install
+        npm run build
+        cd build
+        zip ../build.zip -r * .[^.]*
+        echo "Build successful"
 
 jobs:
   build:
@@ -72,10 +72,9 @@ jobs:
       - run: docker build -t ${IMAGE_NAME}:latest .
       - run:
           name: Tag and push to docker hub
-          command:
-            if [ "${CIRCLE_BRANCH}" == "developer" ]
+          command: if [ "${CIRCLE_BRANCH}" == "developer" ]
             then
-              docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM} && docker push ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM}
+            docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM} && docker push ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM}
             fi
 
   deploy-to-aws-s3:
@@ -120,7 +119,7 @@ jobs:
             fi
 
 workflows:
-  build_and_deploy: 
+  build_and_deploy:
     jobs:
       - build
       - unit-test:
@@ -129,22 +128,22 @@ workflows:
           filters:
             branches:
               only:
-              - develop
-              - staging
-              - master
+                - develop
+                - staging
+                - master
       - publish-to-docker-hub:
           requires:
             - unit-test
           filters:
             branches:
               only:
-              - develop
+                - develop
       - deploy-to-aws-s3:
           requires:
             - publish-to-docker-hub
           filters:
             branches:
-             only: 
+              only:
                 - develop
                 - staging
                 - master
@@ -153,7 +152,7 @@ workflows:
             - deploy-to-aws-s3
           filters:
             branches:
-             only: 
+              only:
                 - develop
                 - staging
                 - master
