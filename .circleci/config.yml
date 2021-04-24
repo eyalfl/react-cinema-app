@@ -6,7 +6,7 @@ executors:
     working_directory: ~/repo
   docker-publisher:
     environment:
-      IMAGE_NAME: eyalfl:cinemadb
+      IMAGE_NAME: eyalfl/cinemadb
     docker:
       - image: circleci/buildpack-deps:stretch
 aliases:
