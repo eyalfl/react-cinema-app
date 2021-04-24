@@ -72,9 +72,10 @@ jobs:
       - run: docker build -t ${IMAGE_NAME}:latest .
       - run:
           name: Tag and push to docker hub
-          command: if [ "${CIRCLE_BRANCH}" == "developer" ]
+          command: |
+          if [ "${CIRCLE_BRANCH}" == "developer" ]
             then
-            docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM} && docker push ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM}
+              docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM} && docker push ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM}
             fi
 
   deploy-to-aws-s3:
