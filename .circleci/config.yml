@@ -73,8 +73,7 @@ jobs:
       - run:
           name: Tag and push to docker hub
           command: |
-          if [ "${CIRCLE_BRANCH}" == "developer" ]
-          then
+          if [ "${CIRCLE_BRANCH}" == "developer" ]; then
             docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM} && docker push ${IMAGE_NAME}:dev-${CIRCLE_BUILD_NUM}
           fi
 
