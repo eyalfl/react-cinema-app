@@ -67,7 +67,7 @@ jobs:
     steps:
       - checkout
       - setup-remote-docker
-      - *restore_cache
+      - *restore-cache
       - run: docker login -u "${DOCKER_HUB_USER}" -p "${DOCKER_HUB_PASSWORD}"
       - run: docker build -t ${IMAGE_NAME}:latest .
       - run:
@@ -157,4 +157,3 @@ workflows:
                 - develop
                 - staging
                 - master
-                
