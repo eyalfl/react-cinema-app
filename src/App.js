@@ -1,26 +1,25 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
-import store from './redux/store';
 import './App.scss';
 import Header from './components/header/Header';
 import Main from './components/main/Main';
-import ErrorPage from './components/error/ErrorPage';
+import Details from './components/content/details/Details';
+import ErrorBoundary from './components/error/ErrorBoundary';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Router>
+
+    <Router>
+      <ErrorBoundary>
         <Header />
         <div className="app">
           <Switch>
             <Route exact path="/" component={Main} />
-            <Route path="*" component={ErrorPage} />
+            <Route path='/:id/:name/details' component={Details} />
           </Switch>
         </div>
-      </Router>
-    </Provider>
+      </ErrorBoundary>
+    </Router>
   );
 };
 
